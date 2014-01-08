@@ -49,10 +49,9 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/cluster-health">Cluster Health</a></li>
             <li><a href="/monitor-status">MON Status</a></li>
             <li><a href="/osd">OSD Status</a></li>
-            <li><a href="/osd/pools">Pools</a></li>
+            <li><a href="/osd/pools">Pool Status</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -67,7 +66,7 @@
   
       {% if cluster_health %}
         <h3>Cluster Data Usage</h3>
-        <center><div id="chart1" style="height:300px; width:500px;"></div></center>
+        <center><div id="chart1" style="height:300px; width:400px;"></div></center>
       {% endif %}
 
       {% block cluster_health %}{% endblock %}

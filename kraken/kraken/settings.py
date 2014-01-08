@@ -1,5 +1,5 @@
 """
-Django settings for kraken project.
+Django settings for krakendash project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -81,13 +81,13 @@ USE_TZ = True
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    '/home/don/kraken/kraken/kraken/static',
+    '/home/don/krakendash/kraken/kraken/static',
 )
 
 
 # Template dir
 TEMPLATE_DIRS = (
-  '/home/don/kraken/kraken/status/templates',
+  '/home/don/krakendash/kraken/status/templates',
 )
 
 # Ceph REST URLS

@@ -6,6 +6,7 @@
 
 
 {% block cluster_health %} {% comment %} {{ cluster_health }} {% endcomment %}
+
 <script>
 // used and free KB
 $(document).ready(function(){
@@ -34,44 +35,5 @@ $(document).ready(function(){
   );
 });
 </script>
-{% endblock %}
 
-
-{% block osd_stat %}
-<h3>OSD Status: {{ osd_stat.status }}</h3>
-<center>
-<table border="1">
-<tr>
-<td>OSD Total</td>
-<td>OSD Up</td>
-<td>OSD In</td>
-</tr>
-<tr>
-<td>{{ osd_stat.output.num_osds }}</td>
-<td>{{ osd_stat.output.num_up_osds }}</td>
-<td>{{ osd_stat.output.num_in_osds }}</td>
-</tr>
-</table>
-</center>
-{% endblock %}
-
-
-{% block pool_list %}
-<center>
-<h3>Pool List</h3>
-<table border="1">
-<tr>
-<td>ID</td>
-<td>Pool Name</td>
-<td>Size</td>
-</tr>
-
-{% for pool in disk_free.output.pools %}
-  <tr><td> {{ pool.id }} </td>
-      <td> {{ pool.name }} </td>
-  <td> {{ pool.stats.kb_used }} </td></tr>
-{% endfor %}
-
-</table>
-</center>
 {% endblock %}
