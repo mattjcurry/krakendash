@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block monitor_status %}
+
+  {% for node in monitor_status.output.monmap.mons %}
+    <a href="{{ node.name }}">
+      <button type="button" class="btn btn-lg btn-success">
+        Name: {{ node.name }}<br>
+        Rank: {{ node.rank }}<br>
+        Address: {{ node.addr }}<br>
+      </button>
+    </a>
+  {% endfor %}
+
+{% endblock %}
+

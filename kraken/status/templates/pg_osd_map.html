@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block pg_osd_map %}
+
+<h1>
+{% for pgdata in pg_osd_map.output %}
+  <li>{{ pgdata.pgid }}</li>
+</h1>
+{% endfor %}
+
+
+{% endblock %}
