@@ -51,7 +51,7 @@
           <ul class="nav navbar-nav">
             <li><a href="/monitor-status">MON Status</a></li>
             <li><a href="/osd">OSD Status</a></li>
-            <li><a href="/osd/pools">Pool Status</a></li>
+            <li><a href="/pools">Pool Status</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -64,11 +64,6 @@
 
       {% block login %}{% endblock %}
   
-      {% if cluster_health %}
-        <h3>Cluster Data Usage</h3>
-        <center><div id="chart1" style="height:300px; width:400px;"></div></center>
-      {% endif %}
-
       {% block cluster_health %}{% endblock %}
       {% block osd_stat %}{% endblock %}
       {% block osd_pools %}{% endblock%}
@@ -83,6 +78,11 @@
       {% block osd_details %}{% endblock %}
       {% block crush_rules %}{% endblock %}
       {% block pg_osd_map %}{% endblock %}
+
+      {% if cluster_health %}
+        <h3>Cluster Data Usage</h3>
+        <center><div id="chart1" style="height:300px; width:400px;"></div></center>
+      {% endif %}
    
       <br><br>
       </div>

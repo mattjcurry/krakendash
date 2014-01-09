@@ -1,11 +1,32 @@
 {% extends 'base.html' %}
-{% block cluster_health_title %}<h1>Cluster Health</h1>{% endblock %}
-{% block disk_free %}
-{% comment %} {{ cluster_health.output.health.health_services.0.mons.0.kb_avail }} {% endcomment %}
-{% endblock %}
 
 
 {% block cluster_health %} {% comment %} {{ cluster_health }} {% endcomment %}
+
+{% if cluster_health.status == "OK" %}
+  <div class="alert alert-success">
+    <span class="glyphicon glyphicon-check"></span>
+    <strong>OK!</strong> Overall, your cluster is functioning normally.
+  </div>
+{% else %}
+  <div class="alert alert-danger">
+    <span class="glyphicon glyphicon-exclamation-sign"></span>
+    <strong>{{ cluster_health.status }}!</strong> There appears to be a problem with your cluster.
+  </div>
+{% endif %}
+
+{% if cluster_health.output.overall_status == "HEALTH_OK" %}
+  <div class="alert alert-success">
+    <span class="glyphicon glyphicon-check"></span>
+    <strong>OK!</strong> No minor issues reported.
+  </div>
+{% else %}
+  <div class="alert alert-danger">
+    <span class="glyphicon glyphicon-exclamation-sign"></span>
+    <strong>{{ cluster_health.output.overall_status }}!</strong> There appears to be a minor issue with your cluster.
+  </div>
+{% endif %}
+
 
 <script>
 // used and free KB

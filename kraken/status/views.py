@@ -29,7 +29,6 @@ def cluster_fsid(request):
 def cluster_health(request):
   disk_free = json.loads(req(URLS['disk_free']))
   cluster_health = json.loads(req(URLS['cluster_health']))
-  osd_stat = json.loads(req(URLS['osd_stat']))
   return render_to_response('cluster_health.html', locals())
 
 def monitor_status(request):
@@ -54,13 +53,13 @@ def osd_map_summary(request):
 def osd_listids(request):
   return HttpResponse(req(URLS['osd_listids']))
 
-def osd_pools(request):
+def pools(request):
   osd_pools = json.loads(req(URLS['osd_pools']))
-  return render_to_response('osd_pools.html', locals())
+  return render_to_response('pools.html', locals())
 
-def osd_pool_detail(request, pool):
-  pool = json.loads(req(URLS['osd_pool_detail']))
-  return render_to_response('osd_pool_detail.html', locals())
+def pool_detail(request, pool):
+  pool = pool
+  return render_to_response('pool_detail.html', locals())
 
 def osd_tree(request):
   return HttpResponse(req(URLS['osd_tree']))
@@ -72,8 +71,6 @@ def pg_status(request):
 def pg_osd_map(request, pgid):
   pg_url = "http://localhost:5000/api/v0.1/pg/dump?dumpcontents=pgs_brief"
   pg_osd_map = json.loads(req(pg_url))
-
-  
   return render_to_response('pg_osd_map.html', locals())
 
 def crush_rules(request):
