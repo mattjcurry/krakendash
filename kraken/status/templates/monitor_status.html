@@ -2,6 +2,8 @@
 
 {% block monitor_status %}
 
+  <li class="list-group-item">fsid: {{ monitor_status.output.monmap.fsid }}</li>
+
   {% for node in monitor_status.output.monmap.mons %}
     <a href="{{ node.name }}">
       <button type="button" class="btn btn-lg btn-success">
@@ -11,6 +13,7 @@
       </button>
     </a>
   {% endfor %}
+
 
 {% endblock %}
 

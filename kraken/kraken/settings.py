@@ -81,17 +81,18 @@ USE_TZ = True
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    '/home/don/krakendash/kraken/kraken/static',
+    '/home/kraken/krakendash/kraken/kraken/static',
 )
 
 
 # Template dir
 TEMPLATE_DIRS = (
-  '/home/don/krakendash/kraken/status/templates',
+  '/home/kraken/krakendash/kraken/status/templates',
 )
 
 # Ceph REST URLS
 CEPH_BASE_URL = 'http://localhost:5000/api/v0.1/'
+
 CEPH_URLS = {
   'fsid': CEPH_BASE_URL + 'fsid',
   'cluster_health': CEPH_BASE_URL + 'health',
