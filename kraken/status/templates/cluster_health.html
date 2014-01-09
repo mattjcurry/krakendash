@@ -23,7 +23,12 @@
 {% else %}
   <div class="alert alert-danger">
     <span class="glyphicon glyphicon-exclamation-sign"></span>
-    <strong>{{ cluster_health.output.overall_status }}!</strong> There appears to be a minor issue with your cluster.
+    <strong>{{ cluster_health.output.overall_status }}! There appears to be a minor issue with your cluster.</strong>
+      {% for error in cluster_health.output.detail %}
+        <br><br>
+        <ul>{{ error }}</ul>
+        <br>
+      {% endfor %}
   </div>
 {% endif %}
 

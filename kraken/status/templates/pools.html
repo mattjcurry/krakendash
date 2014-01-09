@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
-{% block osd_pools %}
+{% block pools %}
 
 <p>
-{% if osd_pools.status == "OK" %}
+{% if pools.status == "OK" %}
   <div class="alert alert-success">
     <span class="glyphicon glyphicon-check"></span>
-    <strong>{{ osd_pools.status }}!</strong> All pools appear to be functioning normally.
+    <strong>{{ pools.status }}!</strong> All pools appear to be functioning normally.
   </div>
 {% else %}
   <div class="alert alert-danger">
     <span class="glyphicon glyphicon-exclamation-sign"></span>
-    <strong>{{ osd_pools.status }}!</strong> There appears to be a problem with your pools.
+    <strong>{{ pools.status }}!</strong> There appears to be a problem with your pools.
   </div>
 {% endif %}
 </p>
 
-{% for pool in osd_pools.output %}
-  <a href="{{ pool.poolname }}">
+{% for pools in pools.output %}
+  <a href="{{ pools.poolname }}">
     <button type="button" class="btn btn-lg btn-info">
-      {{ pool.poolname }}
+      {{ pools.poolname }}
     </button>
   </a>
 {% endfor %}

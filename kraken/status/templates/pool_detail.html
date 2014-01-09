@@ -1,7 +1,51 @@
 {% extends 'base.html' %}
 
-{% block osd_pools %}
+{% block pools %}
 
-{{ pool }}
+<div class="col-sm-4">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title">Details for {{ pool }}</h3>
+    </div>
+    <div class="panel-body" align="left">
+      <ul class="list-group">
+        <li class="list-group-item">status: {{ pg_details.status }}</li>
+        <li class="list-group-item">pg num: {{ pg_details.output.pg_num }}</li>
+        <li class="list-group-item">pool id: {{ pg_details.output.pool_id }}</li>
+
+{% comment %}
+dear god this should really not go in a template
+{% endcomment %}
+
+{% for entry in pool_details_dump.output %}
+  {%  if entry.poolid == pg_details.output.pool_id %}
+    <li class="list-group-item">objects unfound: {{ entry.stat_sum.num_objects_unfound }}</li>
+    <li class="list-group-item">objects missing on primary: {{ entry.stat_sum.num_objects_missing_on_primary }}</li>
+    <li class="list-group-item">current writes: {{ entry.stat_sum.num_write }}</li>
+    <li class="list-group-item">object clones: {{ entry.stat_sum.num_object_clones }}</li>
+    <li class="list-group-item">objects: {{ entry.stat_sum.num_objects }}</li>
+    <li class="list-group-item">object copies: {{ entry.stat_sum.num_object_copies }}
+    <li class="list-group-item">deep scrub errors: {{ entry.stat_sum.num_deep_scrub_errors }}</li>
+    <li class="list-group-item">bytes: {{ entry.stat_sum.num_bytes }}</li>
+    <li class="list-group-item">read kb: {{ entry.stat_sum.num_read_kb }}</li>
+    <li class="list-group-item">shallow scrub errors: {{ entry.stat_sum.num_shallow_scrub_errors }}</li>
+    <li class="list-group-item">bytes recovered: {{ entry.stat_sum.num_bytes_recovered }}</li>
+    <li class="list-group-item">scrub errors: {{ entry.stat_sum.num_scrub_errors }}</li>
+    <li class="list-group-item">reads: {{ entry.stat_sum.num_read }}</li>
+    <li class="list-group-item">keys recovered: {{ entry.stat_sum.num_keys_recovered }}</li>
+    <li class="list-group-item">write kb: {{ entry.stat_sum.num_write_kb }}</li>
+    <li class="list-group-item">objects degraded: {{ entry.stat_sum.objects_degraded }}</li>
+    <li class="list-group-item">objects_recovered: {{ entry.stat_sum.num_objects_recovered }}</li>
+  {% endif %}
+{% endfor %}
+
+
+
+
+
+      </ul>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

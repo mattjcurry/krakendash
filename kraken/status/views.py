@@ -54,11 +54,14 @@ def osd_listids(request):
   return HttpResponse(req(URLS['osd_listids']))
 
 def pools(request):
-  osd_pools = json.loads(req(URLS['osd_pools']))
+  pools = json.loads(req(URLS['pools']))
   return render_to_response('pools.html', locals())
 
 def pool_detail(request, pool):
   pool = pool
+  pg_details = json.loads(req(URLS['pool_details'] + pool))
+  pool_id = pg_details['output']['pool_id']
+  pool_details_dump = json.loads(req(URLS['pool_details_dump']))
   return render_to_response('pool_detail.html', locals())
 
 def osd_tree(request):
