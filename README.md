@@ -1,14 +1,12 @@
-kraken
-======
+# kraken
 
 A free Ceph dashboard for stats and monitoring
 
-You can see what it looks like [here](http://imgur.com/a/Uk8N2)
+You can see what it looks like [here](http://imgur.com/a/JoVPy)
 
-Installation and Roadmap
-=======
+## Installation and Roadmap
 
-Prerequisites:
+### Prerequisites:
 
 The ceph-rest-api must be run on either a member of your Ceph cluster, or on a installed client node that has admin access to the cluster.
 
@@ -20,7 +18,7 @@ pip install django
 pip install requests
 ```
 
-Installation:
+### Installation:
 
 create a new user called kraken then:
 ```
@@ -53,8 +51,7 @@ You can also change the STATICFILES_DIRS and TEMPLATE_DIRS if you are using a di
 
 
 
-Phase One
-======
+## Phase One
 - [x] Cluster status
 - [x] List pools, size
 - [x] Pool status
@@ -62,34 +59,25 @@ Phase One
 - [x] MON status
 - [x] OSD status
 
-
-Phase Two
-======
+## Phase Two
 - [] Advanced metrics
 - [] Better graphs
 - [x] Multi-MON support
 - [] Better UI
 
-
-Phase Three
-======
+## Phase Three
 - [] RPC
 - [] Remove OSD
 - [] Remove MON
 - [] Delete pool
 
-
-Phase Four
-======
+### Phase Four
 - [] Collectd integration
 - [] Graphite integration
 
-Phase Five
-======
+### Phase Five
 - [] Auth system
 - [] User session tracking
 
-
-Phase Six
-======
+### Phase Six
 - [] Multi-cluster support
