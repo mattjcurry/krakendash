@@ -5,6 +5,7 @@ from django.core.files.temp import NamedTemporaryFile
 from cephclient import wrapper
 
 import requests
+import re
 import json
 import subprocess
 
@@ -37,12 +38,34 @@ def newmain(request):
   gb_used = kb_used / kb_avail
 
   ''' pgs '''
-  green_pgs = subprocess.check_output('ceph pg dump all --format plain | grep "active+clean" | wc -l', shell=True)
-  yellow_pgs = subprocess.check_output('ceph pg dump all --format plain | grep "inconsistent" | wc -l', shell=True)
-  red_pgs = subprocess.check_output('ceph pg dump all --format plain | grep "down\|stale" | wc -l', shell=True)
+  pg_resp, pg_status = get_data.get_status( body = 'json')
+  pg_statuses = pg_status['output']['pgmap']
+
+  pg_ok = 0
+  pg_warn = 0
+  pg_crit = 0
+
+  ''' pg states '''
+  pg_warn_status = re.compile("(creating|degraded|replay|splitting|scrubbing|peering|repair|recovering|backfill|wait-backfill|remapped)")
+  pg_crit_status = re.compile("(down|inconsistent|incomplete|stale)")
+
+  for state in pg_statuses['pgs_by_state']:
+
+    if state['state_name'] == "active+clean":
+      pg_ok = pg_ok + state['count']
+
+    elif pg_warn_status.search(state['state_name']):
+      pg_warn = pg_warn + state['count']
+
+    elif pg_crit_status.search(state['state_name']):
+      pg_crit = pg_crit + state['count']
+
+
 
   ''' osds '''
   oresp, osd_status = get_data.osd_stat(body = 'json')
+  dresp, osd_dump = get_data.osd_dump(body = 'json')
+  osd_state = osd_dump['output']['osds']
 
   return render_to_response('newmain.html', locals())
 
