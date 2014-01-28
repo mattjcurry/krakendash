@@ -27,4 +27,5 @@ urlpatterns = patterns('',
     url(r'^crush/map/$', 'status.views.crushmap', name='crushmap'),
     url(r'^osd/$', 'status.views.osd_list', name='osd_list'),
     url(r'^osd/(\d+)/$', 'status.views.osd_details', name='osd_details'),
+    url(r'^newmain/', 'status.views.newmain', name='newmain'),
 )

@@ -81,13 +81,13 @@ USE_TZ = True
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    '/home/kraken/krakendash/kraken/kraken/static',
+    '/home/don/krakendash/kraken/kraken/static',
 )
 
 
 # Template dir
 TEMPLATE_DIRS = (
-  '/home/kraken/krakendash/kraken/status/templates',
+  '/home/don/krakendash/kraken/status/templates',
 )
 
 # Ceph REST URLS
