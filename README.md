@@ -4,6 +4,10 @@ A free Ceph dashboard for stats and monitoring
 
 You can see what it looks like [here](http://imgur.com/a/JoVPy)
 
+(c) 2014 Donald Talton <donald@thoughtstorm.net>
+
+*IN-PROGRESS* Migrating from [requests](http://docs.python-requests.org/en/latest/), an awesome HTTP library for python, to David Simard's [python-cephclient](https://github.com/dmsimard/python-cephclient/).
+
 ## Installation and Roadmap
 
 ### Prerequisites:
