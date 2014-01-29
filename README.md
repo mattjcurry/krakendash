@@ -2,7 +2,7 @@
 
 A free Ceph dashboard for stats and monitoring
 
-You can see what it looks like [here](http://i.imgur.com/WQGLVXL.png)
+You can see what the latest version looks like [here](http://i.imgur.com/yhJaWXo.png)
 
 (c) 2014 Donald Talton <donald@thoughtstorm.net>
 
