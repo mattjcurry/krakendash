@@ -56,8 +56,16 @@
                 <h3 class="panel-title">Health</h3>
               </div>
               <div class="panel-body">
-	        <h1 class="text-success"><!-- change color based on status --!>
-                  {{ cluster_health.status }}
+
+                {% if cluster_health.output.overall_status == "HEALTH_OK" %}
+                  <h1 class="text-success">OK
+                {% elif cluster_health.output.overall_status == "HEALTH_WARN" %}
+                  <h1 class="text-warning">WARN
+                {% else %}
+                  <h1 class="text-danger">CRIT
+                {% endif %}
+                
+
                 </h1>
               </div>
             </div>
@@ -78,15 +86,15 @@
                   </tr>
                   <tr>
                     <td>MON</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ mons_ok }}</td>
+                    <td>{{ mons_warn }}</td>
+                    <td>{{ mons_crit }}</td>
                   </tr>
                   <tr>
                     <td>OSD</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ osds_ok }}</td>
+                    <td>{{ osds_warn }}</td>
+                    <td>{{ osds_crit }}</td>
                   </tr>
                   <tr>
                     <td>PG</td>
@@ -110,10 +118,10 @@
                       <script>
                         var g = new JustGage({
                         id: "gauge",
-                        value: 23,
+                        value: {{ gb_used }},
                         min: 0,
-                        max: 100,
-                        title: "Data Usage"
+                        max: {{ gb_avail}},
+                        title: "Data Usage (in GB)"
                         });
                       </script>
 
@@ -135,11 +143,14 @@
               <div class="panel-body" align="left">
 
                 <style>p.osd_button { line-height: 300%; }</style>
-
                 <p class="osd_button">
-                  {% for i in osd_state %}
-                    {{ i.osd }}
-                  {% endfor %}
+                {% for osd in osd_state %}
+                  {% if osd.state.0 == "exists" and osd.state.1 == "up" %}
+                    <button type="button" class="btn btn-xs btn-success">{{ osd.osd }}</button>
+                  {% else %}
+                    <button type="button" class="btn btn-xs btn-danger">{{ osd.osd }}</button>
+                  {% endif %}
+                {% endfor %}
                 </p>
 
               </div>
@@ -149,58 +160,10 @@
      
        </div>
 
-
-
-
-
-{{ cluster_health.status }}
-<P>
-{{ mon_count }}
-<P>
-{{ pg_stat.output.pg_stats_sum.stat_sum.num_objects_degraded }}
-<p>
-{{ gb_free }}
-<P>{{ kb_used }}
-<P>
-{{ kb_avail }}
-<P>
-{{ active_clean }}
-<P>
-{{ green_pgs }}
-<P>
-{{ yellow_pgs }}
-<P>
-{{ red_pgs }}
-<P>
-{{ osd_status }}
-<P>
-{{ pg_statuses }}
-</P>
-<p>
-pg ok: {{ pg_ok }}
-</p>
-<p>
-pg warn: {{ pg_warn }}
-</p>
-<p>
-pg_crit: {{ pg_crit }}
-</p>
-<P>
-{{ temp }}
-</P>
-
-
-
-
-
-
-
-
-
-      <br><br>
       </div>
 
     </div><!-- /.container -->
+
 
   </body>
 </html>

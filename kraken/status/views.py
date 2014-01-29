@@ -6,6 +6,7 @@ from cephclient import wrapper
 
 import requests
 import re
+import math
 import json
 import subprocess
 
@@ -25,21 +26,34 @@ def req(url):
 def newmain(request):
 
   ''' overall cluster health '''
+
   cresp, cluster_health = get_data.get_health(body = 'json')
+  sresp, cluster_status = get_data.get_status( body = 'json')
 
   ''' mons '''
-  mresp, mon_status = get_data.mon_status(body = 'json')
-  mon_count = len(mon_status['output']['monmap']['mons'])
 
-  ''' get a rough estimate of cluster free space. this is not accurate '''
+  mons = cluster_status['output']['health']['health']['health_services'][0]
+  total_mon_count = {key:len(value) for key,value in mons.iteritems()}['mons']
+  mons_ok = 0
+  mons_warn = 0
+  mons_crit = 0
+
+  for mon in mons['mons']:
+    if mon['health'] == "HEALTH_OK":
+      mons_ok = mons_ok + 1
+    elif mon['health'] == "HEALTH_WARN":
+      mons_warn = mons_warn + 1
+    else:
+      mons_crit = mons_crit + 1
+
+
+  ''' get a rough estimate of cluster free space. is this accurate '''
   presp, pg_stat = get_data.pg_stat(body = 'json')
-  kb_used = pg_stat['output']['osd_stats_sum']['kb_used'] / 1024 / 1024
-  kb_avail = pg_stat['output']['osd_stats_sum']['kb_avail'] / 1024 / 1024
-  gb_used = kb_used / kb_avail
+  gb_avail = cluster_status['output']['pgmap']['bytes_total'] / 1024 / 1024
+  gb_used = cluster_status['output']['pgmap']['bytes_used'] / 1024 / 1024
 
   ''' pgs '''
-  pg_resp, pg_status = get_data.get_status( body = 'json')
-  pg_statuses = pg_status['output']['pgmap']
+  pg_statuses = cluster_status['output']['pgmap']
 
   pg_ok = 0
   pg_warn = 0
@@ -63,18 +77,29 @@ def newmain(request):
 
 
   ''' osds '''
-  oresp, osd_status = get_data.osd_stat(body = 'json')
   dresp, osd_dump = get_data.osd_dump(body = 'json')
   osd_state = osd_dump['output']['osds']
+
+  osds_ok = 0
+  osds_warn = 0
+  osds_crit = 0
+
+  for osd in osd_state:
+    if osd['state'][0] == "exists" and osd['state'][1] == "up":
+      osds_ok = osds_ok + 1
+    elif osd['state'][0] == "exists" and osd['state'][1] == "down":
+      osds_warn = osds_warn + 1
+    else:
+      osds_crit = osds_crit + 1
 
   return render_to_response('newmain.html', locals())
 
 
-def cluster_health(request):
+#def cluster_health(request):
 
-  disk_free = json.loads(req(URLS['disk_free']))
-  cluster_health = json.loads(req(URLS['cluster_health']))
-  return render_to_response('cluster_health.html', locals())
+#  disk_free = json.loads(req(URLS['disk_free']))
+#  cluster_health = json.loads(req(URLS['cluster_health']))
+#  return render_to_response('cluster_health.html', locals())
 
 def monitor_status(request):
 
