@@ -1,12 +1,19 @@
-{% block osd_details %}
+<h6>
+<p class="text-info">osd id: {{ osd_disk_details.osd }}</p>
+<p class="text-info">osd address: {{ osd_disk_details.public_addr }}</p>
+<p class="text-info">apply latency: {{ osd_disk_perf.perf_stats.apply_latency_ms }}ms</p>
+<p class="text-info">commit latency: {{ osd_disk_perf.perf_stats.commit_latency_ms }}ms</p>
 
-<h3 >Details for OSD {{ osd_disk_details.osd }}</h3>
-<li>uuid: {{ osd_disk_details.uuid }}</li>
-<li>up: {{ osd_disk_details.up }}</li>
-<li>in: {{ osd_disk_details.in }}</li>
-<li>OSD address: {{ osd_disk_details.public_addr }}</li>
-<li>apply latency: {{ osd_disk_perf.perf_stats.apply_latency_ms }}ms</li>
-<li>commit latency: {{ osd_disk_perf.perf_stats.commit_latency_ms }}ms</li>
+{% if osd_disk_details.up == 1 %}
+  <p class="text-success">up: {{ osd_disk_details.up }}</p>
+{% else %}
+  <p class="text-danger">up: {{ osd_disk_details.up }}</p>
+{% endif %}
 
+{% if osd_disk_details.up == 1 %}
+  <p class="text-success">in: {{ osd_disk_details.in }}</p>
+{% else %}
+  <p class="text-danger">in: {{ osd_disk_details.in }}</p>
+{% endif %}
 
-{% endblock %}
+</h6>

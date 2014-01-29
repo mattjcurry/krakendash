@@ -56,34 +56,34 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   
 <script type="text/javascript">
 
-$(document).ready(function(){  
+  $(document).ready(function(){  
 
-get_data_for_popover_and_display = function() {
-    var el = $(this);
-    var _data = el.attr('alt');
-    var send_url = el.attr('send_url');
-    $.ajax({
-         type: 'GET',
-         url: send_url,
-         data: _data,
-         dataType: 'html',
-         success: function(data) {
-             el.attr('data-content', data);
-             el.popover('show');
-         }
+    get_osd_data = function() {
+        var el = $(this);
+        var _data = el.attr('alt');
+        var send_url = el.attr('send_url');
+        $.ajax({
+             type: 'GET',
+             url: send_url,
+             data: _data,
+             dataType: 'html',
+             success: function(data) {
+                 el.attr('data-content', data);
+                 el.popover('show');
+             }
+        });
+    }
+
+    $('button').popover({
+                trigger: 'hover',
+                html: true,
+                delay: {
+                   hide: 0,
+                },
     });
-}
+    $('button').click(get_osd_data);
 
-$('button').popover({"trigger": "manual", "html":"true"});
-$('button').click(get_data_for_popover_and_display);
-
-
-
-
-
-
-});
-
+  });
 
 </script>
 
