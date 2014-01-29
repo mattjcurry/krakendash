@@ -91,24 +91,9 @@ TEMPLATE_DIRS = (
 )
 
 # Ceph REST URLS
-CEPH_BASE_URL = 'http://localhost:5000/api/v0.1/'
+CEPH_BASE_URL = 'http://10.0.0.1:5000/api/v0.1/'
 
 CEPH_URLS = {
-  'fsid': CEPH_BASE_URL + 'fsid',
-  'cluster_health': CEPH_BASE_URL + 'health',
-  'monitor_status': CEPH_BASE_URL + 'mon_status',
-  'osd_listids': CEPH_BASE_URL + 'osd/ls',
-  'pools': CEPH_BASE_URL + 'osd/lspools',
-  'pool_details': CEPH_BASE_URL + 'osd/pool/get?var=pg_num&pool=',
-  'pool_details_dump': CEPH_BASE_URL + 'pg/dump_pools_json',
-  'osd_tree': CEPH_BASE_URL + 'osd/tree',
-  'pg_status': CEPH_BASE_URL + 'pg/stat',
-  'pg_map': CEPH_BASE_URL + 'pg/map?pgid=',
-  'disk_free': CEPH_BASE_URL + 'df',
-  'osd_stat': CEPH_BASE_URL + 'osd/stat',
-  'report': CEPH_BASE_URL + 'report',
   'osd_details': CEPH_BASE_URL + 'osd/dump',
   'osd_perf': CEPH_BASE_URL + 'osd/perf',
-  'crush_rule_dump': CEPH_BASE_URL + 'osd/crush/rule/dump',
-  'crushmap': CEPH_BASE_URL + 'osd/getcrushmap',
 }

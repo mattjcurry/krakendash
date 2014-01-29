@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-
-{% block osd_list %}
-
-{% for osd in osd_list.output %}
-  <a href="{{ osd }}"><button type="button" class="btn btn-lg btn-default">OSD {{ osd }}</button></a>
-{% endfor %}
-
-{% endblock %}

@@ -1,3 +1,32 @@
+# Copyright (c) 2013,2014 Donald Talton
+# All rights reserved.
+
+# Redistribution and use in source and binary forms, with or without modification,
+# are permitted provided that the following conditions are met:
+
+# Redistributions of source code must retain the above copyright notice, this
+#  list of conditions and the following disclaimer.
+
+# Redistributions in binary form must reproduce the above copyright notice, this
+#  list of conditions and the following disclaimer in the documentation and/or
+#  other materials provided with the distribution.
+
+# Neither the name of Donald Talton nor the names of its
+#  contributors may be used to endorse or promote products derived from
+#  this software without specific prior written permission.
+
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+# DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+# ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+# (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+# LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+# ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.conf import settings
@@ -11,7 +40,7 @@ import json
 import subprocess
 
 URLS = settings.CEPH_URLS
-get_data = wrapper.CephWrapper(endpoint = 'http://localhost:5000/api/v0.1/')
+get_data = wrapper.CephWrapper(endpoint = settings.CEPH_BASE_URL)
 
 ''' the main request builder '''
 def req(url):
@@ -23,7 +52,7 @@ def req(url):
 
 ''' Cluster collection methods '''
 
-def newmain(request):
+def home(request):
 
   ''' overall cluster health '''
 
@@ -92,80 +121,16 @@ def newmain(request):
     else:
       osds_crit = osds_crit + 1
 
-  return render_to_response('newmain.html', locals())
+  return render_to_response('home.html', locals())
 
+def ops(request):
+  return render_to_response('ops.html', locals())
 
-#def cluster_health(request):
-
-#  disk_free = json.loads(req(URLS['disk_free']))
-#  cluster_health = json.loads(req(URLS['cluster_health']))
-#  return render_to_response('cluster_health.html', locals())
-
-def monitor_status(request):
-
-  response, body = get_data.mon_status(body = 'json')
-  monitor_status =body
-  return render_to_response('monitor_status.html', locals())
-
-def osd_list(request):
-
-  osd_list = json.loads(req(URLS['osd_listids']))
-  return render_to_response('osd_list.html', locals())
 
 def osd_details(request, osd_num):
-
   osd_num = int(osd_num)
   osd_details = json.loads(req(URLS['osd_details']))
   osd_disk_details = osd_details['output']['osds'][osd_num]
   osd_perf = json.loads(req(URLS['osd_perf']))
   osd_disk_perf = osd_perf['output']['osd_perf_infos'][osd_num]
   return render_to_response('osd_details.html', locals())
-
-def osd_map_summary(request):
-
-  return HttpResponse(req(URLS['osd_map_summary']))
-
-def osd_listids(request):
-
-  return HttpResponse(req(URLS['osd_listids']))
-
-def pools(request):
-
-  pools = json.loads(req(URLS['pools']))
-  return render_to_response('pools.html', locals())
-
-def pool_detail(request, pool):
-
-  pool = pool
-  pg_details = json.loads(req(URLS['pool_details'] + pool))
-  pool_id = pg_details['output']['pool_id']
-  pool_details_dump = json.loads(req(URLS['pool_details_dump']))
-  return render_to_response('pool_detail.html', locals())
-
-def osd_tree(request):
-
-  return HttpResponse(req(URLS['osd_tree']))
-
-def pg_status(request):
-
-  pg_status = json.loads(req(URLS['pg_status']))
-  return render_to_response('pg_status.html', locals())
-
-def pg_osd_map(request, pgid):
-
-  pg_url = "http://localhost:5000/api/v0.1/pg/dump?dumpcontents=pgs_brief"
-  pg_osd_map = json.loads(req(pg_url))
-  return render_to_response('pg_osd_map.html', locals())
-
-def crush_rules(request):
-
-  crush_rules = json.loads(req(URLS['crush_rule_dump']))
-  return render_to_response('crush_rules.html', locals())
-
-def crushmap(request):
-
-  r = requests.get('http://localhost:5000/api/v0.1/osd/getcrushmap')
-  myfile = NamedTemporaryFile(delete=False)
-  myfile.write(r.content)
-  map = subprocess.call(['/usr/bin/crushtool -d', '%s']) % (myfile.name)
-  return render_to_response('crushmap.html', locals())
