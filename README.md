@@ -1,4 +1,4 @@
-testcollab# kraken
+# kraken
 
 A free Ceph dashboard for stats and monitoring
 
