@@ -47,16 +47,45 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <link href="{% static "bootstrap/css/starter-template.css" %}" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
-    <script class="include" type="text/javascript" src="{% static "jqplot/jquery.jqplot.min.js" %}"></script>
-    <script src="{% static "jqplot/plugins/jqplot.pieRenderer.min.js" %}"></script>
-    <script src="{% static "jqplot/plugins/jqplot.donutRenderer.min.js" %}"></script>
 
     <script src="{% static "justgage/resources/js/justgage.1.0.1.min.js" %}"></script>
     <script src="{% static "justgage/resources/js/raphael.2.1.0.min.js" %}"></script>
+  
+<script type="text/javascript">
+
+$(document).ready(function(){  
+
+get_data_for_popover_and_display = function() {
+    var el = $(this);
+    var _data = el.attr('alt');
+    var send_url = el.attr('send_url');
+    $.ajax({
+         type: 'GET',
+         url: send_url,
+         data: _data,
+         dataType: 'html',
+         success: function(data) {
+             el.attr('data-content', data);
+             el.popover('show');
+         }
+    });
+}
+
+$('button').popover({"trigger": "manual", "html":"true"});
+$('button').click(get_data_for_popover_and_display);
+
+
+
+
+
+
+});
+
+
+</script>
 
   </head>
 
@@ -170,7 +199,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
             <div class="panel panel-default">
               <div class="panel-heading">
-                <h3 class="panel-title">OSD Status</h3>
+                <h3 class="panel-title" id="osdNotice">OSD Status</h3>
               </div>
               <div class="panel-body" align="left">
 
@@ -178,9 +207,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <p class="osd_button">
                 {% for osd in osd_state %}
                   {% if osd.state.0 == "exists" and osd.state.1 == "up" %}
-                    <button type="button" class="btn btn-xs btn-success">{{ osd.osd }}</button>
+                    <button type="button" class="btn btn-xs btn-success" role="button" send_url="/osd/{{ osd.osd }}">{{ osd.osd }}</button>
                   {% else %}
-                    <button type="button" class="btn btn-xs btn-danger">{{ osd.osd }}</button>
+                    <button type="button" class="btn btn-xs btn-danger" role="button">{{ osd.osd }}</button>
                   {% endif %}
                 {% endfor %}
                 </p>
