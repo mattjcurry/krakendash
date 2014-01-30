@@ -32,6 +32,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
 from cephclient import wrapper
+from collections import defaultdict
 
 import requests
 import re
@@ -81,6 +82,7 @@ def home(request):
   gb_avail = cluster_status['output']['pgmap']['bytes_total'] / 1024 / 1024
   gb_used = cluster_status['output']['pgmap']['bytes_used'] / 1024 / 1024
 
+
   ''' pgs '''
   pg_statuses = cluster_status['output']['pgmap']
 
@@ -89,8 +91,8 @@ def home(request):
   pg_crit = 0
 
   ''' pg states '''
-  pg_warn_status = re.compile("(creating|degraded|replay|splitting|scrubbing|peering|repair|recovering|backfill|wait-backfill|remapped)")
-  pg_crit_status = re.compile("(down|inconsistent|incomplete|stale)")
+  pg_warn_status = re.compile("(creating|degraded|replay|splitting|scrubbing|repair|recovering|backfill|wait-backfill|remapped)")
+  pg_crit_status = re.compile("(down|inconsistent|incomplete|stale|peering)")
 
   for state in pg_statuses['pgs_by_state']:
 
@@ -104,6 +106,12 @@ def home(request):
       pg_crit = pg_crit + state['count']
 
 
+  ''' pg statuses '''
+  pg_states = dict()
+
+  for state in pg_statuses['pgs_by_state']:
+    pg_states[state['state_name']] = state['count']
+
 
   ''' osds '''
   dresp, osd_dump = get_data.osd_dump(body = 'json')
@@ -113,53 +121,23 @@ def home(request):
   osds_warn = 0
   osds_crit = 0
 
-  for osd in osd_state:
-    if osd['state'][0] == "exists" and osd['state'][1] == "up":
+  ''' states are exists, up, autoout, new, ??? '''
+  osd_up = re.compile("(?=.*exists)(?=.*up)")
+  osd_down = re.compile("(?=.*exists)(?=.*autoout)")
+
+  for osd_status in osd_state:
+    if osd_up.search(str(osd_status['state'])):
       osds_ok = osds_ok + 1
-    elif osd['state'][0] == "exists" and osd['state'][1] == "down":
+    elif osd_down.search(str(osd_status['state'])):
       osds_warn = osds_warn + 1
     else:
       osds_crit = osds_crit + 1
 
+
   return render_to_response('home.html', locals())
 
+
 def ops(request):
-
-  ''' pg details '''
-  sresp, cluster_status = get_data.get_status( body = 'json')
-  pg_statuses = cluster_status['output']['pgmap']
-
-  pg_dict = dict(
-    creating = 0,
-    active = 0,
-    clean = 0,
-    down = 0,
-    replay = 0,
-    splitting = 0,
-    scrubbing = 0,
-    degraded = 0,
-    inconsistent = 0,
-    peering = 0,
-    repair = 0,
-    recovering = 0,
-    backfill = 0,
-    wait_backfill = 0,
-    backfill_toofull = 0,
-    incomplete = 0,
-    stale = 0,
-    remapped = 0,
-  )
-
-  for state in pg_statuses['pgs_by_state']:
-    for statuses in pg_dict:
-      if re.search(statuses, state['state_name']):
-        bar = "hi there"
-        pg_dict[statuses] += 1
-
-
-
-  ''' osd details '''
-
   return render_to_response('ops.html', locals())
 
 

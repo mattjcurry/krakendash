@@ -45,6 +45,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
     <!-- Bootstrap core CSS -->
     <link href="{% static "bootstrap/css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "css/kraken.css" %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -194,8 +195,37 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
        </div>
 
        <div class="row">
- 
-          <div class="col-sm-12">
+
+
+          <div class="col-sm-3">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">PG States</h3>
+              </div>
+              <div class="panel-body">
+
+                <div class="table-responsive">
+                  <table class="table table-curved">
+                    <tr>
+                      <td>state</td>
+                      <td>count</td>
+                    </tr>
+
+                  {% for k, v in pg_states.items %}
+                    <tr>
+                      <td>{{ k }}</td>
+                      <td>{{ v }}</td>
+                    </tr>
+                  {% endfor %}
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-sm-9">
 
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -209,7 +239,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                   {% if osd.state.0 == "exists" and osd.state.1 == "up" %}
                     <button type="button" class="btn btn-xs btn-success" role="button" send_url="/osd/{{ osd.osd }}">{{ osd.osd }}</button>
                   {% else %}
-                    <button type="button" class="btn btn-xs btn-danger" role="button">{{ osd.osd }}</button>
+                    <button type="button" class="btn btn-xs btn-danger" role="button" send_url="/osd/{{ osd.osd }}">{{ osd.osd }}</button>
                   {% endif %}
                 {% endfor %}
                 </p>
@@ -224,7 +254,6 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
       </div>
 
     </div><!-- /.container -->
-
 
   </body>
 </html>

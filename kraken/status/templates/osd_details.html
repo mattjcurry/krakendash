@@ -1,19 +1,19 @@
 <h6>
-<p class="text-info">osd id: {{ osd_disk_details.osd }}</p>
-<p class="text-info">osd address: {{ osd_disk_details.public_addr }}</p>
-<p class="text-info">apply latency: {{ osd_disk_perf.perf_stats.apply_latency_ms }}ms</p>
-<p class="text-info">commit latency: {{ osd_disk_perf.perf_stats.commit_latency_ms }}ms</p>
+<p class="text-info">OSD ID: {{ osd_disk_details.osd }}</p>
 
 {% if osd_disk_details.up == 1 %}
-  <p class="text-success">up: {{ osd_disk_details.up }}</p>
+  <p class="text-success">Up: Yes</p>
 {% else %}
-  <p class="text-danger">up: {{ osd_disk_details.up }}</p>
+  <p class="text-danger">Up: No</p>
 {% endif %}
 
 {% if osd_disk_details.up == 1 %}
-  <p class="text-success">in: {{ osd_disk_details.in }}</p>
+  <p class="text-success">In: Yes</p>
 {% else %}
-  <p class="text-danger">in: {{ osd_disk_details.in }}</p>
+  <p class="text-danger">In: No</p>
 {% endif %}
 
+<p class="text-info">Public IP: {{ osd_disk_details.public_addr }}</p>
+<p class="text-info">Apply Latency: {{ osd_disk_perf.perf_stats.apply_latency_ms }}ms</p>
+<p class="text-info">Commit Latency: {{ osd_disk_perf.perf_stats.commit_latency_ms }}ms</p>
 </h6>
