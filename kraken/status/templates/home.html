@@ -204,13 +204,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
               </div>
               <div class="panel-body">
 
+<!--
                 <div class="table-responsive">
                   <table class="table table-curved">
                     <tr>
                       <td>state</td>
                       <td>count</td>
                     </tr>
-
                   {% for k, v in pg_states.items %}
                     <tr>
                       <td>{{ k }}</td>
@@ -219,6 +219,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                   {% endfor %}
                   </table>
                 </div>
+-->
+
+
+<ul class="list-group">
+
+{% for k, v in pg_states.items %}
+  <li class="list-group-item">
+    <span class="badge">{{ v }}</span>
+    {{ k }}
+  </li>
+{% endfor %}
+</ul>
+
+
 
               </div>
             </div>
@@ -228,6 +242,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           <div class="col-sm-9">
 
             <div class="panel panel-default">
+
               <div class="panel-heading">
                 <h3 class="panel-title" id="osdNotice">OSD Status</h3>
               </div>
@@ -248,8 +263,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
             </div>
 
           </div><!-- /.col-sm-4 -->
-     
+
        </div>
+
+              <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <strong>Help Tip: </strong>Click on an OSD to get its details.
+              </div>
+
 
       </div>
 
