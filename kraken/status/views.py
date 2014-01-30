@@ -124,6 +124,42 @@ def home(request):
   return render_to_response('home.html', locals())
 
 def ops(request):
+
+  ''' pg details '''
+  sresp, cluster_status = get_data.get_status( body = 'json')
+  pg_statuses = cluster_status['output']['pgmap']
+
+  pg_dict = dict(
+    creating = 0,
+    active = 0,
+    clean = 0,
+    down = 0,
+    replay = 0,
+    splitting = 0,
+    scrubbing = 0,
+    degraded = 0,
+    inconsistent = 0,
+    peering = 0,
+    repair = 0,
+    recovering = 0,
+    backfill = 0,
+    wait_backfill = 0,
+    backfill_toofull = 0,
+    incomplete = 0,
+    stale = 0,
+    remapped = 0,
+  )
+
+  for state in pg_statuses['pgs_by_state']:
+    for statuses in pg_dict:
+      if re.search(statuses, state['state_name']):
+        bar = "hi there"
+        pg_dict[statuses] += 1
+
+
+
+  ''' osd details '''
+
   return render_to_response('ops.html', locals())
 
 
