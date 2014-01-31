@@ -4,13 +4,7 @@ A free Ceph dashboard for stats and monitoring
 
 You can see what the latest version looks like [here](http://i.imgur.com/yhJaWXo.png)
 
-(c) 2014 Donald Talton <donald@thoughtstorm.net>
-
 *IN-PROGRESS* Migrating from [requests](http://docs.python-requests.org/en/latest/), an awesome HTTP library for python, to David Moreau Simard's [python-cephclient](https://github.com/dmsimard/python-cephclient/).
-
-(c) 2014 Donald Talton <donald@thoughtstorm.net>
-
-*IN-PROGRESS* Migrating from [requests](http://docs.python-requests.org/en/latest/), an awesome HTTP library for python, to David Simard's [python-cephclient](https://github.com/dmsimard/python-cephclient/).
 
 ## Installation and Roadmap
 
@@ -23,6 +17,7 @@ do:
 apt-get install git
 apt-get install python-pip
 pip install django
+pip install humanize
 pip install requests
 ```
 
@@ -52,10 +47,9 @@ in /home/kraken do:
 ./django.sh
   
   
-Also, if needed, edit krakendash/kraken/kraken/settings.py
+Edit krakendash/kraken/kraken/settings.py
 
 Here you can change CEPH_BASE_URL to point at your host running ceph-rest-api, it is preconfigured already for localhost.
-You can also change the STATICFILES_DIRS and TEMPLATE_DIRS if you are using a different username than kraken.
 
 ## Phase One
 - [x] Cluster status
