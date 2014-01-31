@@ -63,19 +63,20 @@ def home(request):
 
   ''' mons '''
 
-  mons = cluster_status['output']['health']['health']['health_services'][0]
-  total_mon_count = {key:len(value) for key,value in mons.iteritems()}['mons']
+  all_mons = cluster_status['output']['monmap']['mons']
+  up_mons = cluster_status['output']['health']['timechecks']['mons']
+  total_mon_count = len(all_mons)
   mons_ok = 0
   mons_warn = 0
   mons_crit = 0
 
-  for mon in mons['mons']:
+  for mon in up_mons:
     if mon['health'] == "HEALTH_OK":
       mons_ok = mons_ok + 1
-    elif mon['health'] == "HEALTH_WARN":
-      mons_warn = mons_warn + 1
     else:
-      mons_crit = mons_crit + 1
+      mons_warn = mons_warn + 1
+
+  mons_crit = total_mon_count - (mons_ok + mons_warn)
 
 
   ''' get a rough estimate of cluster free space. is this accurate '''
