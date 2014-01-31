@@ -2,7 +2,11 @@
 
 A free Ceph dashboard for stats and monitoring
 
-You can see what it looks like [here](http://imgur.com/a/JoVPy)
+You can see what the latest version looks like [here](http://i.imgur.com/yhJaWXo.png)
+
+(c) 2014 Donald Talton <donald@thoughtstorm.net>
+
+*IN-PROGRESS* Migrating from [requests](http://docs.python-requests.org/en/latest/), an awesome HTTP library for python, to David Moreau Simard's [python-cephclient](https://github.com/dmsimard/python-cephclient/).
 
 (c) 2014 Donald Talton <donald@thoughtstorm.net>
 
@@ -53,15 +57,14 @@ Also, if needed, edit krakendash/kraken/kraken/settings.py
 Here you can change CEPH_BASE_URL to point at your host running ceph-rest-api, it is preconfigured already for localhost.
 You can also change the STATICFILES_DIRS and TEMPLATE_DIRS if you are using a different username than kraken.
 
-
-
 ## Phase One
 - [x] Cluster status
-- [x] List pools, size
-- [x] Pool status
+- [] List pools, size
+- [] Pool status
 - [x] Cluster data usage
 - [x] MON status
 - [x] OSD status
+- [x] PG status
 
 ## Phase Two
 - [] Advanced metrics
@@ -70,9 +73,9 @@ You can also change the STATICFILES_DIRS and TEMPLATE_DIRS if you are using a di
 - [] Better UI
 
 ## Phase Three
-- [] RPC
-- [] Remove OSD
-- [] Remove MON
+- [] Modify OSD
+- [] Modify MON
+- [] Modify CRUSH
 - [] Delete pool
 
 ### Phase Four

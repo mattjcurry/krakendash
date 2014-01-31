@@ -1,23 +1,19 @@
-{% extends 'base.html' %}
+<h6>
+<p class="text-info">OSD ID: {{ osd_disk_details.osd }}</p>
 
-{% block osd_details %}
+{% if osd_disk_details.up == 1 %}
+  <p class="text-success">Up: Yes</p>
+{% else %}
+  <p class="text-danger">Up: No</p>
+{% endif %}
 
-<div class="col-sm-4">
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <h3 class="panel-title">Details for OSD {{ osd_disk_details.osd }}</h3>
-    </div>
-    <div class="panel-body">
-      <ul class="list-group" align="left">
-        <li class="list-group-item">uuid: {{ osd_disk_details.uuid }}</li>
-        <li class="list-group-item">up: {{ osd_disk_details.up }}</li>
-        <li class="list-group-item">in: {{ osd_disk_details.in }}</li>
-        <li class="list-group-item">OSD address: {{ osd_disk_details.public_addr }}</li>
-        <li class="list-group-item">apply latency: {{ osd_disk_perf.perf_stats.apply_latency_ms }}ms</li>
-        <li class="list-group-item">commit latency: {{ osd_disk_perf.perf_stats.commit_latency_ms }}ms</li>
-      </ul>
-    </div>
-  </div>
-</div>
+{% if osd_disk_details.up == 1 %}
+  <p class="text-success">In: Yes</p>
+{% else %}
+  <p class="text-danger">In: No</p>
+{% endif %}
 
-{% endblock %}
+<p class="text-info">Public IP: {{ osd_disk_details.public_addr }}</p>
+<p class="text-info">Apply Latency: {{ osd_disk_perf.perf_stats.apply_latency_ms }}ms</p>
+<p class="text-info">Commit Latency: {{ osd_disk_perf.perf_stats.commit_latency_ms }}ms</p>
+</h6>

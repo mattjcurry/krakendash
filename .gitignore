@@ -1,2 +1,3 @@
 *.pyc
 *.sqlite3
+kraken/kraken/local_settings.py
