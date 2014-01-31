@@ -39,6 +39,7 @@ import re
 import math
 import json
 import subprocess
+from humanize import filesize
 
 URLS = settings.CEPH_URLS
 get_data = wrapper.CephWrapper(endpoint = settings.CEPH_BASE_URL)
@@ -57,8 +58,8 @@ def home(request):
 
   ''' overall cluster health '''
 
-  cresp, cluster_health = get_data.get_health(body = 'json')
-  sresp, cluster_status = get_data.get_status( body = 'json')
+  cresp, cluster_health = get_data.health(body = 'json')
+  sresp, cluster_status = get_data.status( body = 'json')
 
   ''' mons '''
 
@@ -79,8 +80,12 @@ def home(request):
 
   ''' get a rough estimate of cluster free space. is this accurate '''
   presp, pg_stat = get_data.pg_stat(body = 'json')
-  gb_avail = cluster_status['output']['pgmap']['bytes_total'] / 1024 / 1024
-  gb_used = cluster_status['output']['pgmap']['bytes_used'] / 1024 / 1024
+  bytes_total = cluster_status['output']['pgmap']['bytes_total']
+  bytes_used = cluster_status['output']['pgmap']['bytes_used']
+
+  data_avail, data_scale = filesize.naturalsize(bytes_total).split()
+  scale = filesize.suffixes['decimal'].index(data_scale)+1
+  data_used = round(float(bytes_used)/pow(1024, scale),1)
 
 
   ''' pgs '''

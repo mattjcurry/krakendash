@@ -52,8 +52,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     <link href="{% static "bootstrap/css/starter-template.css" %}" rel="stylesheet">
     <script src="{% static "bootstrap/js/bootstrap.min.js" %}"></script>
 
-    <script src="{% static "justgage/resources/js/justgage.1.0.1.min.js" %}"></script>
     <script src="{% static "justgage/resources/js/raphael.2.1.0.min.js" %}"></script>
+    <script src="{% static "justgage/resources/js/justgage.1.0.1.min.js" %}"></script>
   
 <script type="text/javascript">
 
@@ -175,15 +175,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
                 <h3 class="panel-title">Usage</h3>
               </div>
               <div class="panel-body">
-                    <div id="gauge" class="200x160px"></div>
+                    <div id="gauge" style="width:220px; height:140px"></div>
 
                       <script>
                         var g = new JustGage({
                         id: "gauge",
-                        value: {{ gb_used }},
+                        value: {{ data_used }},
                         min: 0,
-                        max: {{ gb_avail}},
-                        title: "Data Usage (in MB)"
+                        max: {{ data_avail }},
+						title: "Data Usage (in {{ data_scale }})"
                         });
                       </script>
 
