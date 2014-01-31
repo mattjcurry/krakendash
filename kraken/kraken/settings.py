@@ -81,19 +81,23 @@ USE_TZ = True
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
-    '/home/don/krakendash/kraken/kraken/static',
+    os.path.join(BASE_DIR, 'kraken/static'),
 )
 
 
 # Template dir
 TEMPLATE_DIRS = (
-  '/home/don/krakendash/kraken/status/templates',
+    os.path.join(BASE_DIR, 'status/templates'),
 )
 
 # Ceph REST URLS
-CEPH_BASE_URL = 'http://10.0.0.1:5000/api/v0.1/'
+CEPH_BASE_URL = 'http://127.0.0.1:5000/api/v0.1/'
 
 CEPH_URLS = {
   'osd_details': CEPH_BASE_URL + 'osd/dump',
   'osd_perf': CEPH_BASE_URL + 'osd/perf',
 }
+
+#put any settings you need to override in local_settings.py, and it's gitignored
+if os.path.exists(os.path.join(BASE_DIR, 'kraken/local_settings.py')):
+	from kraken.local_settings import *  # flake8: noqa
