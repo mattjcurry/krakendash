@@ -79,11 +79,21 @@ def home(request):
   mons_crit = total_mon_count - (mons_ok + mons_warn)
 
 
-  ''' maybe speed? '''
+  ''' activity '''
   pgmap = cluster_status['output']['pgmap']
-  read_bytes_per_sec = filesize.naturalsize(pgmap.get('read_bytes_sec') or 0)
-  write_bytes_per_sec = filesize.naturalsize(pgmap.get('write_bytes_sec') or 0)
-  op_per_sec = pgmap.get('op_per_sec') or 0
+  activities = {}
+  if pgmap.has_key('read_bytes_sec'):
+    activities['Read'] = filesize.naturalsize(pgmap.get('read_bytes_sec'))
+  if pgmap.has_key('write_bytes_sec'):
+    activities['Write'] = filesize.naturalsize(pgmap.get('write_bytes_sec'))
+  if pgmap.has_key('op_per_sec'):
+    activities['Ops'] = pgmap.get('op_per_sec')
+  if pgmap.has_key('recovering_objects_per_sec'):
+    activities['Recovering Objects'] = pgmap.get('recovering_objects_per_sec')
+  if pgmap.has_key('recovering_bytes_per_sec'):
+    activities['Recovery Speed'] = filesize.naturalsize(pgmap.get('recovering_bytes_per_sec'))
+  if pgmap.has_key('recovering_keys_per_sec'):
+    activities['Recovering Keys'] = pgmap.get('recovering_keys_per_sec')
 
 
   ''' get a rough estimate of cluster free space. is this accurate '''
