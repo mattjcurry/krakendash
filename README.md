@@ -6,10 +6,10 @@ You can see what the latest version looks like [here](http://i.imgur.com/yhJaWXo
 
 Come hang out with us on freenode in #kraken-dashboard
 
-Contributors
-..* [Donald Talton](https://github.com/dontalton)
-..* [David Moreau Simard](https://github.com/dmsimard/)
-..* [Aaron Bassett](https://github.com/magicrobotmonkey)
+Contributors:
+* [Donald Talton](https://github.com/dontalton)
+* [David Moreau Simard](https://github.com/dmsimard/)
+* [Aaron Bassett](https://github.com/magicrobotmonkey)
 
 ## Installation and Roadmap
 
