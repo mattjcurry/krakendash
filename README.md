@@ -17,23 +17,21 @@ Contributors:
 
 The ceph-rest-api must be run on either a member of your Ceph cluster, or on a installed client node that has admin access to the cluster.
 
-do:
-```
-apt-get install git
-apt-get install python-pip
-pip install django
-pip install humanize
-pip install requests
-```
 
 ### Installation:
 
-create a new user called kraken then:
+Create a new user called kraken then:
 ```
   cd /home/kraken
   git clone https://github.com/krakendash/krakendash
 ```
-  
+
+Install Kraken's dependencies:
+```
+apt-get install python-pip python-dev libxml2-dev libxslt-dev
+pip install -r requirements.txt
+```
+
 In the krakendash/contrib directory there are two files, api.sh and django.sh
 
 ```
