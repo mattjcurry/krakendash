@@ -239,7 +239,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           </div>
 
 
-          <div class="col-sm-9">
+          <div class="col-sm-6">
 
             <div class="panel panel-default">
 
@@ -264,6 +264,20 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
           </div><!-- /.col-sm-4 -->
 
+          <div class="col-sm-3">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Activity</h3>
+              </div>
+              <div class="panel-body">
+				  {% for label, data in activities.items %}
+				  	{{ label }}: {{ data }}/Sec <br />
+				  {% empty %}
+				    Boring!
+				  {% endfor %}
+			  </div>
+			</div>
+		  </div>
        </div>
 
               <div class="alert alert-success alert-dismissable">
