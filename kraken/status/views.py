@@ -152,7 +152,7 @@ def home(request):
         else:
             osds_crit += 1
 
-    return render_to_response('home.html', locals())
+    return render_to_response('dashboard.html', locals())
 
 
 def ops(request):
