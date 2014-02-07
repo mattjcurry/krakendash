@@ -26,31 +26,35 @@
                     <h3 class="panel-title">Status</h3>
                 </div>
                 <div class="panel-body">
-                    <table class="table">
-                        <tr>
-                            <td></td>
-                            <td>OK</td>
-                            <td>WARN</td>
-                            <td>CRIT</td>
-                        </tr>
-                        <tr>
-                            <td>MON</td>
-                            <td>{{ mons_ok }}</td>
-                            <td>{{ mons_warn }}</td>
-                            <td>{{ mons_crit }}</td>
-                        </tr>
-                        <tr>
-                            <td>OSD</td>
-                            <td>{{ osds_ok }}</td>
-                            <td>{{ osds_warn }}</td>
-                            <td>{{ osds_crit }}</td>
-                        </tr>
-                        <tr>
-                            <td>PG</td>
-                            <td>{{ pg_ok }}</td>
-                            <td>{{ pg_warn }}</td>
-                            <td>{{ pg_crit }}</td>
-                        </tr>
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="text-center">OK</th>
+                                <th class="text-center">WARN</th>
+                                <th class="text-center">CRIT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>MON</b></td>
+                                <td>{{ mons_ok }}</td>
+                                <td>{{ mons_warn }}</td>
+                                <td>{{ mons_crit }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>OSD</b></td>
+                                <td>{{ osds_ok }}</td>
+                                <td>{{ osds_warn }}</td>
+                                <td>{{ osds_crit }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>PG</b></td>
+                                <td>{{ pg_ok }}</td>
+                                <td>{{ pg_warn }}</td>
+                                <td>{{ pg_crit }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
