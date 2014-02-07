@@ -1,0 +1,189 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <div class="starter-template">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Health</h3>
+                    </div>
+                <div class="panel-body">
+                    {% if cluster_health.output.overall_status == "HEALTH_OK" %}
+                      <h1 class="text-success">OK</h1>
+                    {% elif cluster_health.output.overall_status == "HEALTH_WARN" %}
+                      <h1 class="text-warning">WARN</h1>
+                    {% else %}
+                      <h1 class="text-danger">CRIT</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Status</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="text-center">OK</th>
+                                <th class="text-center">WARN</th>
+                                <th class="text-center">CRIT</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><b>MON</b></td>
+                                <td>{{ mons_ok }}</td>
+                                <td>{{ mons_warn }}</td>
+                                <td>{{ mons_crit }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>OSD</b></td>
+                                <td>{{ osds_ok }}</td>
+                                <td>{{ osds_warn }}</td>
+                                <td>{{ osds_crit }}</td>
+                            </tr>
+                            <tr>
+                                <td><b>PG</b></td>
+                                <td>{{ pg_ok }}</td>
+                                <td>{{ pg_warn }}</td>
+                                <td>{{ pg_crit }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Usage</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="gauge" style="width:220px; height:140px"></div>
+                        <script>
+                            var g = new JustGage({
+                            id: "gauge",
+                            value: {{ data_used }},
+                            min: 0,
+                            max: {{ data_avail }},
+                            title: "Data Usage (in {{ data_scale }})"
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">PG States</h3>
+                    </div>
+                <div class="panel-body">
+                    <!--
+                    <div class="table-responsive">
+                      <table class="table table-curved">
+                        <tr>
+                          <td>state</td>
+                          <td>count</td>
+                        </tr>
+                      {% for k, v in pg_states.items %}
+                        <tr>
+                          <td>{{ k }}</td>
+                          <td>{{ v }}</td>
+                        </tr>
+                      {% endfor %}
+                      </table>
+                    </div>
+                    -->
+                    <ul class="list-group">
+                        {% for k, v in pg_states.items %}
+                            <li class="list-group-item">
+                                <span class="badge">{{ v }}</span>
+                                {{ k }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="osdNotice">OSD Status</h3>
+                </div>
+                <div class="panel-body" align="left">
+                    <style>p.osd_button { line-height: 300%; }</style>
+                    <p class="osd_button">
+                        {% for osd in osd_state %}
+                            {% if osd.state.0 == "exists" and osd.state.1 == "up" %}
+                                <button type="button" class="btn btn-xs btn-success" role="button" send_url="/osd/{{ osd.osd }}">{{ osd.osd }}</button>
+                            {% else %}
+                                <button type="button" class="btn btn-xs btn-danger" role="button" send_url="/osd/{{ osd.osd }}">{{ osd.osd }}</button>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Activity</h3>
+                </div>
+                <div class="panel-body">
+                    {% for label, data in activities.items %}
+                        {{ label }}: {{ data }}/Sec <br />
+                    {% empty %}
+                        Boring!
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <strong>Help Tip: </strong>Click on an OSD to get its details.
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        get_osd_data = function() {
+            var el = $(this);
+            var _data = el.attr('alt');
+            var send_url = el.attr('send_url');
+            $.ajax({
+                type: 'GET',
+                url: send_url,
+                data: _data,
+                dataType: 'html',
+                success: function(data) {
+                    el.attr('data-content', data);
+                    el.popover('show');
+                }
+            });
+        }
+
+        $('button').popover({
+            trigger: 'hover',
+            html: true,
+            delay: {
+                hide: 0,
+            },
+        });
+
+        $('button').click(get_osd_data);
+    });
+</script>
+{% endblock %}
