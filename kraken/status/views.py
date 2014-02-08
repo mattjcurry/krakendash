@@ -41,9 +41,6 @@ import json
 import subprocess
 from humanize import filesize
 
-URLS = settings.CEPH_URLS
-
-
 def req(url):
     """
     The main request builder
@@ -160,9 +157,13 @@ def ops(request):
 
 
 def osd_details(request, osd_num):
+    ceph = wrapper.CephWrapper(endpoint=settings.CEPH_BASE_URL)
     osd_num = int(osd_num)
-    osd_details = json.loads(req(URLS['osd_details']))
-    osd_disk_details = osd_details['output']['osds'][osd_num]
-    osd_perf = json.loads(req(URLS['osd_perf']))
+
+    reponse, osd_dump = ceph.osd_dump(body='json')
+    osd_disk_details = osd_dump['output']['osds'][osd_num]
+
+    response, osd_perf = ceph.osd_perf(body='json')
     osd_disk_perf = osd_perf['output']['osd_perf_infos'][osd_num]
+
     return render_to_response('osd_details.html', locals())
