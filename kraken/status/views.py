@@ -59,10 +59,10 @@ def home(request):
     """
     Main dashboard, Overall cluster health and status
     """
-    get_data = wrapper.CephWrapper(endpoint=settings.CEPH_BASE_URL)
+    ceph = wrapper.CephWrapper(endpoint=settings.CEPH_BASE_URL)
 
-    cresp, cluster_health = get_data.health(body='json')
-    sresp, cluster_status = get_data.status(body='json')
+    cresp, cluster_health = ceph.health(body='json')
+    sresp, cluster_status = ceph.status(body='json')
 
     # Monitors
     all_mons = cluster_status['output']['monmap']['mons']
@@ -97,7 +97,7 @@ def home(request):
         activities['Recovering Keys'] = pgmap.get('recovering_keys_per_sec')
 
     # Get a rough estimate of cluster free space. Is this accurate ?
-    presp, pg_stat = get_data.pg_stat(body='json')
+    presp, pg_stat = ceph.pg_stat(body='json')
     bytes_total = cluster_status['output']['pgmap']['bytes_total']
     bytes_used = cluster_status['output']['pgmap']['bytes_used']
 
@@ -133,7 +133,7 @@ def home(request):
         pg_states[state['state_name']] = state['count']
 
     # osds
-    dresp, osd_dump = get_data.osd_dump(body='json')
+    dresp, osd_dump = ceph.osd_dump(body='json')
     osd_state = osd_dump['output']['osds']
 
     osds_ok = 0
