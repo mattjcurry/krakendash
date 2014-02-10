@@ -161,9 +161,11 @@ def osd_details(request, osd_num):
     osd_num = int(osd_num)
 
     reponse, osd_dump = ceph.osd_dump(body='json')
-    osd_disk_details = osd_dump['output']['osds'][osd_num]
+    osd_disk_details = filter(lambda x: x['osd']  == 
+            int(osd_num), osd_dump['output']['osds'])[0]
 
     response, osd_perf = ceph.osd_perf(body='json')
-    osd_disk_perf = osd_perf['output']['osd_perf_infos'][osd_num]
+    osd_disk_perf = filter(lambda x: x['id']  == 
+            int(osd_num), osd_perf['output']['osd_perf_infos'])[0]
 
     return render_to_response('osd_details.html', locals())
