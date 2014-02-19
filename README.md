@@ -2,7 +2,7 @@
 
 A free Ceph dashboard for stats and monitoring
 
-You can see what the latest version looks like [here](http://i.imgur.com/fDnqpO9.png)
+You can see what the latest version looks like [here](http://imgur.com/fDnqpO9)
 
 Come hang out with us on freenode in #kraken-dashboard
 
