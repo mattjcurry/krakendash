@@ -2,14 +2,9 @@
 
 A free Ceph dashboard for stats and monitoring
 
-You can see what the latest version looks like [here](http://i.imgur.com/yhJaWXo.png)
+You can see what the latest version looks like [here](http://i.imgur.com/fDnqpO9.png)
 
 Come hang out with us on freenode in #kraken-dashboard
-
-Contributors:
-* [Donald Talton](https://github.com/dontalton)
-* [David Moreau Simard](https://github.com/dmsimard/)
-* [Aaron Bassett](https://github.com/magicrobotmonkey)
 
 ## Installation and Roadmap
 
@@ -56,18 +51,18 @@ Here you can change CEPH_BASE_URL to point at your host running ceph-rest-api, i
 
 ## Phase One
 - [x] Cluster status
-- [] List pools, size
-- [] Pool status
 - [x] Cluster data usage
 - [x] MON status
 - [x] OSD status
 - [x] PG status
+- [x] Better UI
 
 ## Phase Two
 - [] Advanced metrics
-- [] Better graphs
+- [] List pools, size
+- [] Pool status
+- [] Kraken API
 - [x] Multi-MON support
-- [] Better UI
 - [x] Migrate from requests to [python-cephclient](https://github.com/dmsimard/python-cephclient/)
 
 ## Phase Three
@@ -75,14 +70,15 @@ Here you can change CEPH_BASE_URL to point at your host running ceph-rest-api, i
 - [] Modify MON
 - [] Modify CRUSH
 - [] Delete pool
+- [] Better graphs
 
 ### Phase Four
-- [] Collectd integration
-- [] Graphite integration
-
-### Phase Five
 - [] Auth system
 - [] User session tracking
+
+### Phase Five
+- [] Collectd integration
+- [] Graphite integration
 
 ### Phase Six
 - [] Multi-cluster support
