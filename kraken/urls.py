@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^osd/(\d+)/$', 'status.views.osd_details', name='osd_details'),
     url(r'^api/clusters/health/$', views.health, name="cluster-health"),
     url(r'^api/clusters/status/$', views.status, name="cluster-status"),
+    url(r'^api/clusters/overview/$', views.overview, name="cluster-status"),
     url(r'^api/clusters/$', views.clusters, name="clusters"),
     url(r'^api/$', views.api, name="api"),
 )
